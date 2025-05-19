@@ -25,3 +25,7 @@ logs
 
 # Generated files
 .generated
+
+# Database files
+.database/*
+!.database/.gitkeep

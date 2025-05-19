@@ -1,0 +1,11 @@
+/// User model
+model User {
+  /// Unique ID
+  id       String @id @default(uuid(7))
+  /// Username
+  username String @unique
+  /// Password
+  password String
+  /// Name
+  name     String
+}

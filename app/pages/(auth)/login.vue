@@ -10,7 +10,7 @@ definePageMeta({
     const authStore = useAuthStore();
 
     if (authStore.authenticated) {
-      navigateTo('/');
+      return navigateTo('/');
     }
   },
 });
@@ -65,6 +65,7 @@ function handleSubmit() {
         <UInput v-model="state.password" type="password" />
       </UFormField>
       <UButton type="submit">Login</UButton>
+      <NuxtLink to="/sign-up">Sign up</NuxtLink>
     </UForm>
   </div>
 </template>

@@ -40,7 +40,10 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function fetchSessionData() {
-    return $fetch('/api/auth/me');
+    // Request fetch forward cookie during SSR.
+    const requestFetch = useRequestFetch();
+
+    return requestFetch('/api/auth/me');
   }
 
   return {

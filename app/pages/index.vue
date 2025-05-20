@@ -19,7 +19,7 @@ watch(search, () => {
 
 // Pagination
 const page = ref<number>(1);
-const limit = ref<number>(10);
+const limit = ref<number>(12);
 const offset = computed(() => (page.value - 1) * limit.value);
 
 watch(page, () => refresh);
@@ -49,12 +49,17 @@ const count = computed(() => data.value?.count);
     <div class="space-y-4">
       <!-- Search -->
       <div>
-        <UInput v-model="search" type="text" :loading="searching" icon="lucide:search" />
+        <UInput
+          v-model="search"
+          type="text"
+          :loading="searching"
+          icon="lucide:search"
+        />
       </div>
       <!-- Recipe list -->
-      <div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
         <template v-for="recipe in recipes" :key="recipe.id">
-          <UCard>{{ recipe }}</UCard>
+          <RecipeCard :data="recipe" />
         </template>
       </div>
       <!-- Pagination -->

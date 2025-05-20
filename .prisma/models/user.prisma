@@ -8,4 +8,8 @@ model User {
   password String
   /// Name
   name     String
+  /// Recipes
+  recipes Recipe[]
+  /// Ratings
+  ratings Rating[]
 }

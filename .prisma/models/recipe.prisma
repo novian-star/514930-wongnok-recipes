@@ -1,0 +1,61 @@
+/// Recipe model
+model Recipe {
+  /// Unique ID
+  id           String      @id @default(uuid(7))
+  /// Title
+  title        String
+  /// Description
+  description  String?
+  /// Ingredients
+  ingredients  String?
+  /// Instructions
+  instructions String?
+  /// Cooking time
+  cookingTime  CookingTime
+  /// Difficulty
+  difficulty   Difficulty
+  /// Image URL
+  image        String?
+  /// User ID
+  userId       String
+  /// User
+  user         User        @relation(fields: [userId], references: [id])
+  /// Ratings
+  ratings      Rating[]
+}
+
+/// Recipe cooking time enum
+enum CookingTime {
+  /// 5-10 minutes
+  SHORT
+  /// 10-30 minutes
+  MEDIUM
+  /// 30-60 minutes
+  LONG
+  /// 60+ minutes
+  VERY_LONG
+}
+
+/// Recipe difficulty enum
+enum Difficulty {
+  /// Easy
+  EASY
+  /// Medium
+  MEDIUM
+  /// Hard
+  HARD
+}
+
+/// Recipe rating model
+model Rating {
+  /// Unique ID
+  id       String @id @default(uuid(7))
+  /// Recipe ID
+  recipeId String
+  /// Recipe
+  recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  /// User ID
+  userId   String
+  /// User
+  user     User   @relation(fields: [userId], references: [id])
+}

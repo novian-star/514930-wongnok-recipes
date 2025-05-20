@@ -6,18 +6,15 @@ declare module '#app' {
   }
 }
 
-
 export default defineNuxtRouteMiddleware(async (to, _from) => {
   const authStore = useAuthStore();
-  
+
   // Prevent refetching session data after navigation.
   const attempt = useState('attempt', () => false);
 
   // Attempt fetching session data if have not fetched.
   if (!authStore.authenticated && !attempt.value) {
-    const result = await authStore.fetchSessionData().catch(() => {
-      console.log(import.meta.server, import.meta.client, 'Error')
-    });
+    const result = await authStore.fetchSessionData().catch(() => null);
 
     if (result?.data) {
       authStore.setSessionData(result.data);

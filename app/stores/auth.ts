@@ -3,7 +3,7 @@ import type * as v from 'valibot';
 import type { LoginSchema, SignUpSchema } from '~~/shared/validations/auth';
 
 export const useAuthStore = defineStore('auth', () => {
-  const data = ref<SessionUserData | null>(null);
+  const data = useState<SessionUserData | null>('session-user-data', () =>null);
 
   const authenticated = computed(() => !!data.value);
 

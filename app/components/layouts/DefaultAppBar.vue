@@ -4,7 +4,7 @@ const authStore = useAuthStore();
 
 <template>
   <header class="border-b border-default">
-    <div class="flex items-center h-16 px-4 gap-4">
+    <div class="flex items-center max-w-5xl h-16 px-4 mx-auto gap-4">
       <div class="flex items-center gap-2">
         <UButton to="/" icon="lucide:chef-hat" />
       </div>

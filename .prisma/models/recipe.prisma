@@ -50,6 +50,8 @@ enum Difficulty {
 model Rating {
   /// Unique ID
   id       String @id @default(uuid(7))
+  /// Value
+  value    Int
   /// Recipe ID
   recipeId String
   /// Recipe

@@ -15,21 +15,9 @@ if (!recipe.value) {
 
 provide('recipe', recipe);
 
-const authStore = useAuthStore();
-
-const isOwner = computed(
-  () => authStore.getSessionData()?.user.id === recipe.value?.userId
-);
-
 export type ComputedRefRecipe = typeof recipe;
 </script>
 
 <template>
-  <div>
-    <template v-if="isOwner">
-      <UButton :to="`/${recipe?.id}/update`">Update</UButton>
-    </template>
-
-    <NuxtPage />
-  </div>
+  <NuxtPage />
 </template>

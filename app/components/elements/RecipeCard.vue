@@ -39,7 +39,11 @@ const difficulty = computed(() => {
       <!-- Image -->
       <div class="h-20 bg-muted border-b border-default text-muted">
         <template v-if="data.image">
-          <img :alt="data.title" :src="data.image" />
+          <img
+            :alt="data.title"
+            :src="data.image"
+            class="w-full h-full object-cover"
+          />
         </template>
         <template v-else>
           <div class="flex items-center justify-center w-full h-full">

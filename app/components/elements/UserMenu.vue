@@ -35,10 +35,14 @@ function handleSignOut() {
   <UPopover>
     <UButton color="neutral" icon="lucide:circle-user" variant="ghost" />
     <template #content>
-      <div class="flex flex-col w-40 *:p-2 *:not-last:border-b *:border-default">
+      <div
+        class="flex flex-col w-40 *:p-2 *:not-last:border-b *:border-default"
+      >
         <div class="text-sm">
           <div>{{ sessionData?.user.name }}</div>
-          <div class="italic text-dimmed">@{{ sessionData?.user.username }}</div>
+          <div class="italic text-dimmed">
+            @{{ sessionData?.user.username }}
+          </div>
         </div>
         <div>
           <UButton

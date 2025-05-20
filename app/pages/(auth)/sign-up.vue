@@ -36,6 +36,10 @@ function handleSubmit() {
         title: 'Sign up success',
       });
 
+      authStore.fetchSessionData().then((result) => {
+        authStore.setSessionData(result.data);
+      })
+
       navigateTo('/');
     })
     .catch((error) => {

@@ -9,6 +9,7 @@ const authStore = useAuthStore();
         <UButton to="/" icon="lucide:chef-hat" />
       </div>
       <div class="flex items-center ms-auto gap-2">
+          <ColorModeToggle />
         <template v-if="authStore.authenticated">
           <UButton to="/create" icon="lucide:plus">Add Recipe</UButton>
         </template>

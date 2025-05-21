@@ -23,6 +23,7 @@
     "valibot": "^1.1.0"
   },
   "devDependencies": {
+    "@iconify-json/mage": "^1.2.2",
     "@nuxt/eslint": "^1.4.0",
     "eslint": "^9.27.0",
     "prisma": "^6.8.2",

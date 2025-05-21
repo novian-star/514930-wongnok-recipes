@@ -76,6 +76,35 @@ function rate(value: number) {
       console.error('Error rating recipe:', error);
     });
 }
+
+const isDeleting = ref(false);
+
+function deleteRecipe() {
+  const toast = useToast();
+
+  $fetch('/api/recipes/:id', {
+    method: 'DELETE',
+    params: {
+      id: recipe!.value!.id,
+    },
+  })
+    .then(() => {
+      toast.add({
+        title: 'Recipe deleted successfully!',
+      });
+
+      navigateTo('/');
+    })
+    .catch((error) => {
+      toast.add({
+        title: 'Error deleting recipe',
+        description: error.message,
+        color: 'error',
+      });
+
+      console.error('Error deleting recipe:', error);
+    });
+}
 </script>
 
 <template>
@@ -94,7 +123,9 @@ function rate(value: number) {
             />
           </template>
           <template v-else>
-            <UIcon name="lucide:utensils" class="w-32 h-32 text-muted" />
+            <div class="flex items-center justify-center w-32 h-32 bg-muted">
+              <UIcon name="lucide:utensils" class="w-5 h-5 text-muted" />
+            </div>
           </template>
         </div>
         <div class="space-y-2">
@@ -123,7 +154,7 @@ function rate(value: number) {
         </div>
       </div>
 
-      <div>
+      <div class="flex flex-col flex-start gap-2">
         <!-- Update -->
         <template v-if="isOwner">
           <UButton
@@ -131,8 +162,21 @@ function rate(value: number) {
             icon="lucide:edit"
             class="text-sm"
             color="primary"
+            variant="soft"
           >
             Update
+          </UButton>
+        </template>
+        <!-- Delete -->
+        <template v-if="isOwner">
+          <UButton
+            class="text-sm"
+            color="error"
+            icon="lucide:trash"
+            variant="soft"
+            @click="isDeleting = true"
+          >
+            Delete
           </UButton>
         </template>
       </div>
@@ -178,5 +222,25 @@ function rate(value: number) {
         </template>
       </div>
     </div>
+
+    <!-- Delete model -->
+    <UModal v-model:open="isDeleting">
+      <template #title>Delete recipe</template>
+      <template #body>
+        <p class="text-sm text-muted">
+          Are you sure you want to delete this recipe?
+        </p>
+      </template>
+      <template #footer>
+        <UButton
+          block
+          color="neutral"
+          variant="soft"
+          @click="isDeleting = false"
+          >No</UButton
+        >
+        <UButton block color="error" @click="deleteRecipe">Yes</UButton>
+      </template>
+    </UModal>
   </div>
 </template>

@@ -13,4 +13,11 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-11-27',
 
   components: [{ path: '~/components', pathPrefix: false }],
+
+  nitro: {
+    preset: 'bun',
+    replace: {
+      'import * as process': 'import * as processUnused'
+    }
+  },
 });

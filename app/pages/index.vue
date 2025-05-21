@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import type { CookingTime, Difficulty } from '~~/.generated/prisma';
+
+const authStore = useAuthStore();
+
 // Search
 const search = ref<string>('');
 const searching = ref<boolean>(false);
@@ -22,20 +26,49 @@ const page = ref<number>(1);
 const limit = ref<number>(12);
 const offset = computed(() => (page.value - 1) * limit.value);
 
-watch(page, () => refresh());
+// Cooking time
+const cookingTime = ref<CookingTime | undefined>(undefined);
+const cookingTimeOptions = useCookingTimeOptions();
+cookingTimeOptions.splice(0, 0, {
+  // @ts-expect-error : Allow undefined value
+  value: undefined,
+  label: 'None'
+});
+
+// Difficulty
+const difficulty = ref<Difficulty | undefined>(undefined);
+const difficultyOptions = useDifficultyOptions();
+difficultyOptions.splice(0, 0, {
+  // @ts-expect-error : Allow undefined value
+  value: undefined,
+  label: 'None'
+});
+
+// Owner
+const owned = ref<boolean>(false);
 
 // Data
-const { data, refresh } = await useAsyncData(async () => {
-  const result = await $fetch('/api/recipes', {
-    query: {
-      search: search.value,
-      limit: limit.value,
-      offset: offset.value,
-    },
-  });
+const { data, refresh } = await useAsyncData(
+  async () => {
+    const result = await $fetch('/api/recipes', {
+      query: {
+        search: search.value,
+        limit: limit.value,
+        offset: offset.value,
+        filter: {
+          cookingTime: cookingTime.value || undefined,
+          difficulty: difficulty.value || undefined,
+        },
+        owned: owned.value || undefined,
+      },
+    });
 
-  return { recipes: result.data, count: result.meta.count };
-});
+    return { recipes: result.data, count: result.meta.count };
+  },
+  {
+    watch: [page, owned, cookingTime, difficulty],
+  }
+);
 
 const recipes = computed(() => data.value?.recipes);
 const count = computed(() => data.value?.count);
@@ -47,14 +80,39 @@ const count = computed(() => data.value?.count);
       <h1 class="text-2xl font-semibold">Recipes</h1>
     </header>
     <div class="space-y-4">
-      <!-- Search -->
-      <div>
-        <UInput
-          v-model="search"
-          type="text"
-          :loading="searching"
-          icon="lucide:search"
+      <div class="grid sm:grid-cols-3 md:grid-cols-4 sm:items-center gap-4 ">
+        <!-- Search -->
+        <div>
+          <UInput
+            v-model="search"
+            type="text"
+            :loading="searching"
+            icon="lucide:search"
+            placeholder="Search"
+            class="w-full"
+          />
+        </div>
+        <!-- Cooking time -->
+        <USelect
+          v-model="cookingTime"
+          :items="cookingTimeOptions"
+          label-key="label"
+          value-key="value"
+          placeholder="Select cooking time"
         />
+        <!-- Difficulty -->
+        <USelect
+          v-model="difficulty"
+          :items="difficultyOptions"
+          label-key="label"
+          value-key="value"
+          placeholder="Select difficulty"
+
+        />
+        <!-- Owned recipe checkbox -->
+        <div v-if="authStore.authenticated">
+          <UCheckbox v-model="owned" label="Owned recipes" />
+        </div>
       </div>
       <!-- Recipe list -->
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">

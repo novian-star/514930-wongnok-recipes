@@ -32,7 +32,7 @@ const cookingTimeOptions = useCookingTimeOptions();
 cookingTimeOptions.splice(0, 0, {
   // @ts-expect-error : Allow undefined value
   value: undefined,
-  label: 'None'
+  label: 'None',
 });
 
 // Difficulty
@@ -41,7 +41,7 @@ const difficultyOptions = useDifficultyOptions();
 difficultyOptions.splice(0, 0, {
   // @ts-expect-error : Allow undefined value
   value: undefined,
-  label: 'None'
+  label: 'None',
 });
 
 // Owner
@@ -80,7 +80,7 @@ const count = computed(() => data.value?.count);
       <h1 class="text-2xl font-semibold">Recipes</h1>
     </header>
     <div class="space-y-4">
-      <div class="grid sm:grid-cols-3 md:grid-cols-4 sm:items-center gap-4 ">
+      <div class="grid sm:grid-cols-3 md:grid-cols-4 sm:items-center gap-4">
         <!-- Search -->
         <div>
           <UInput
@@ -107,7 +107,6 @@ const count = computed(() => data.value?.count);
           label-key="label"
           value-key="value"
           placeholder="Select difficulty"
-
         />
         <!-- Owned recipe checkbox -->
         <div v-if="authStore.authenticated">
@@ -116,8 +115,16 @@ const count = computed(() => data.value?.count);
       </div>
       <!-- Recipe list -->
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-        <template v-for="recipe in recipes" :key="recipe.id">
-          <RecipeCard :data="recipe" />
+        <template v-if="recipes?.length">
+          <template v-for="recipe in recipes" :key="recipe.id">
+            <LazyRecipeCard :data="recipe" />
+          </template>
+        </template>
+        <template v-else>
+          <div class="flex flex-col items-center justify-center col-span-full p-4 gap-2 text-muted">
+            <UIcon class="w-10 h-10" name="lucide:frown" />
+            <span>No result.</span>
+          </div>
         </template>
       </div>
       <!-- Pagination -->

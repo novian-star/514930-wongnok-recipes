@@ -27,6 +27,10 @@ const difficulty = computed(() => {
   return options.find((option) => option.value === recipe?.value?.difficulty);
 });
 
+const isAuthenticated = computed(() => {
+  return useAuthStore().authenticated;
+});
+
 const isOwner = computed(() => {
   if (!recipe?.value) return false;
 
@@ -204,7 +208,7 @@ function deleteRecipe() {
         <UButtonGroup>
           <template v-for="index in 5" :key="index">
             <UButton
-              :disabled="!!rated || isOwner"
+              :disabled="!isAuthenticated ||  isOwner || !!rated"
               :color="(rated?.value || 0) >= index ? 'primary' : 'neutral'"
               :icon="
                 (rated?.value || 0) >= index ? 'mage:star-fill' : 'mage:star'
@@ -214,6 +218,9 @@ function deleteRecipe() {
             />
           </template>
         </UButtonGroup>
+        <template v-if="!isAuthenticated">
+          <p class="text-sm text-dimmed">You must be logged in to rate.</p>
+        </template>
         <template v-if="!!rated">
           <p class="text-sm text-dimmed">You have already rated this recipe.</p>
         </template>

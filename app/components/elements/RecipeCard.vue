@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import { NuxtLink } from '#components';
 import type { Recipe } from '~~/.generated/prisma';
 
 const props = defineProps<{
   data: Recipe & { ratings: { value: number }[] };
+  preview?: boolean
 }>();
 
 const averageRatings = computed(() => {
@@ -32,7 +34,7 @@ const difficulty = computed(() => {
 </script>
 
 <template>
-  <NuxtLink class="block" :to="`/${data.id}`">
+  <component :is="preview ? 'div' : NuxtLink" class="block" :to="`/${data.id}`">
     <div
       class="flex flex-col w-full h-full border border-default rounded shadow-xs overflow-hidden transition-all hover:-translate-y-0.5"
     >
@@ -56,7 +58,7 @@ const difficulty = computed(() => {
         <!-- Header -->
         <div class="flex items-center justify-between gap-1">
           <!-- Title -->
-          <h2 class="font-medium text-sm text-ellipsis overflow-hidden">
+          <h2 class="font-medium text-sm text-ellipsis line-clamp-1 overflow-hidden">
             {{ data.title }}
           </h2>
           <!-- Difficulty -->
@@ -90,5 +92,5 @@ const difficulty = computed(() => {
         </div>
       </div>
     </div>
-  </NuxtLink>
+  </component>
 </template>

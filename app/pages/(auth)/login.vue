@@ -37,7 +37,7 @@ function handleSubmit() {
 
       authStore.fetchSessionData().then((result) => {
         authStore.setSessionData(result.data);
-      })
+      });
 
       navigateTo('/');
     })
@@ -60,16 +60,28 @@ function handleSubmit() {
 </script>
 
 <template>
-  <div>
-    <UForm :schema :state @submit="handleSubmit">
-      <UFormField name="username" label="Username">
-        <UInput v-model="state.username" />
-      </UFormField>
-      <UFormField name="password" label="Password">
-        <UInput v-model="state.password" type="password" />
-      </UFormField>
-      <UButton type="submit">Login</UButton>
-      <NuxtLink to="/sign-up">Sign up</NuxtLink>
-    </UForm>
+  <div
+    class="flex flex-col items-center sm:justify-center w-screen h-[calc(100dvh-64px)]"
+  >
+    <h1 class="pb-4 sm:pt-0 font-semibold text-2xl">Log In</h1>
+    <div class="w-xs p-4 mx-auto border border-default rounded">
+      <UForm :schema :state class="space-y-4" @submit="handleSubmit">
+        <UFormField name="username" label="Username">
+          <UInput v-model="state.username" type="text" class="w-full" />
+          <template #error><span /></template>
+        </UFormField>
+        <UFormField name="password" label="Password">
+          <UInput v-model="state.password" type="password" class="w-full" />
+          <template #error><span /></template>
+        </UFormField>
+        <div class="mt-8 space-y-2">
+          <UButton type="submit" block>Log in</UButton>
+          <USeparator>or</USeparator>
+          <UButton to="/sign-up" block color="neutral" variant="ghost">
+            Sign up
+          </UButton>
+        </div>
+      </UForm>
+    </div>
   </div>
 </template>

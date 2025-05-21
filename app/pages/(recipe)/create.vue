@@ -46,43 +46,54 @@ function handleSubmit() {
 </script>
 
 <template>
-  <div class="p-4">
+  <div class="max-w-5xl p-4 mx-auto space-y-4">
     <header>
-      <h1>Create recipe</h1>
+      <h1 class="font-semibold text-2xl">Update recipe</h1>
     </header>
-    <div>
-      <UForm :schema :state @submit="handleSubmit">
-        <UFormField name="title" label="Title" required>
-          <UInput v-model="state.title" type="text" />
-        </UFormField>
-        <UFormField name="description" label="Description">
-          <UTextarea v-model="state.description" />
-        </UFormField>
-        <UFormField name="ingredients" label="Ingredients">
-          <UTextarea v-model="state.ingredients" />
-        </UFormField>
-        <UFormField name="instructions" label="Instructions">
-          <UTextarea v-model="state.instructions" />
-        </UFormField>
-        <UFormField name="cookingTime" label="Cooking time" required>
-          <USelect
-            v-model="state.cookingTime"
-            :items="useCookingTimeOptions()"
-            value-key="value"
-          />
-        </UFormField>
-        <UFormField name="difficulty" label="Difficulty" required>
-          <USelect
-            v-model="state.difficulty"
-            :items="useDifficultyOptions()"
-            value-key="value"
-          />
-        </UFormField>
-        <UFormField name="image" label="Image">
-          <UInput v-model="state.image" />
-        </UFormField>
-        <UButton type="submit">Submit</UButton>
-      </UForm>
+    <div class="flex items-start gap-4">
+      <!-- Form-->
+      <div class="grow">
+        <UForm :schema :state class="space-y-4" @submit="handleSubmit">
+          <UFormField name="title" label="Title" required>
+            <UInput v-model="state.title" type="text" class="w-full" />
+          </UFormField>
+          <UFormField name="description" label="Description">
+            <UTextarea v-model="state.description" class="w-full" />
+          </UFormField>
+          <UFormField name="ingredients" label="Ingredients">
+            <UTextarea v-model="state.ingredients" class="w-full" />
+          </UFormField>
+          <UFormField name="instructions" label="Instructions">
+            <UTextarea v-model="state.instructions" class="w-full" />
+          </UFormField>
+          <UFormField name="cookingTime" label="Cooking time" required>
+            <USelect
+              v-model="state.cookingTime"
+              :items="useCookingTimeOptions()"
+              value-key="value"
+              class="w-full"
+            />
+          </UFormField>
+          <UFormField name="difficulty" label="Difficulty" required>
+            <USelect
+              v-model="state.difficulty"
+              :items="useDifficultyOptions()"
+              value-key="value"
+              class="w-full"
+            />
+          </UFormField>
+          <UFormField name="image" label="Image">
+            <UInput v-model="state.image" class="w-full" />
+          </UFormField>
+          <UButton type="submit" block>Submit</UButton>
+        </UForm>
+      </div>
+      <!-- Preview -->
+      <div class="grow space-y-1">
+        <div class="font-medium text-sm">Preview</div>
+        <!-- @vue-expect-error -->
+        <RecipeCard :data="{ ...state, ratings: [] }" preview class="max-w-48" />
+      </div>
     </div>
   </div>
 </template>

@@ -22,7 +22,7 @@ const page = ref<number>(1);
 const limit = ref<number>(12);
 const offset = computed(() => (page.value - 1) * limit.value);
 
-watch(page, () => refresh);
+watch(page, () => refresh());
 
 // Data
 const { data, refresh } = await useAsyncData(async () => {

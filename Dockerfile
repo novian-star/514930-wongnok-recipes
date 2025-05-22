@@ -1,3 +1,6 @@
+# Note: This Dockerfile work better with docker-compose
+# as this runs migrations on every deploy
+
 # Build stage
 FROM oven/bun:1.2.12-alpine AS builder
 
@@ -6,12 +9,11 @@ WORKDIR /app
 RUN apk update && apk add --no-cache openssl git
 
 COPY package.json bun.lock ./
+COPY .prisma .prisma
 
 RUN bun install --frozen-lockfile
 
 COPY . .
-
-RUN bun prisma generate
 
 RUN bun run build
 
@@ -28,4 +30,5 @@ COPY --from=builder /app ./
 
 EXPOSE ${PORT}
 
-CMD ["bun", "run", "./.output/server/index.mjs"]
+# Start the server
+CMD ["sh", "-c", "bun prisma migrate deploy && bun run ./.output/server/index.mjs"]

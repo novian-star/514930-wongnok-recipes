@@ -1,23 +1,27 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true },
+	devtools: { enabled: true },
 
-  modules: ['@nuxt/ui', '@nuxt/eslint', '@pinia/nuxt'],
+	modules: ['@nuxt/ui', '@nuxt/eslint', '@pinia/nuxt'],
 
-  css: ['~/assets/css/main.css'],
+	css: ['~/assets/css/main.css'],
 
-  future: {
-    compatibilityVersion: 4,
-  },
+	future: {
+		compatibilityVersion: 4,
+	},
 
-  compatibilityDate: '2024-11-27',
+	compatibilityDate: '2024-11-27',
 
-  components: [{ path: '~/components', pathPrefix: false }],
+	components: [{ path: '~/components', pathPrefix: false }],
 
-  nitro: {
-    preset: 'bun',
-    replace: {
-      'import * as process': 'import * as processUnused'
-    }
-  },
+	nitro: {
+		preset: 'bun',
+		replace: {
+			'import * as process': 'import * as processUnused',
+		},
+	},
+
+	fonts: {
+		provider: 'local',
+	},
 });

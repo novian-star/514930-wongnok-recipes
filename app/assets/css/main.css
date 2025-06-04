@@ -1,6 +1,8 @@
 @import 'tailwindcss';
 @import '@nuxt/ui';
 
+@import '~/assets/css/font.css';
+
 @theme static {
-  --font-sans: 'Anuphan', sans-serif;
+	--font-sans: 'Anuphan', sans-serif;
 }
